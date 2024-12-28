@@ -2,13 +2,6 @@
 
 KitBot is an educational and prototyping robotics platform designed to facilitate learning in robotics and programming. With its compact design and versatile features, it is an ideal tool for students, hobbyists, and educators. This repository contains example code, technical documentation, and resources to help you get started with KitBot.
 
-## Features
-- Ultrasonic distance measurement with obstacle detection
-- Button tests with LCD display
-- Line following capability using IR sensors
-- Bluetooth remote control option
-- Expandable for additional features and sensors
-
 ## Table of Contents
 1. [Installation](#installation)
 2. [Setup](#setup)
