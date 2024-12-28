@@ -35,8 +35,8 @@ KitBot is an educational and prototyping robotics platform designed to facilitat
 ## Setup
 
 1. **Load the Code:**
-   - Open the Arduino IDE and select `Arduino Nano` under Tools > Board.
-   - Select the correct port under Tools > Port.
+   - Open the Arduino IDE and select `Arduino Nano` under **Tools > Board > Arduino AVR Boards** and `ATmega328 (Old Bootloader)` under **Tools > Processor**.
+   - Select the correct port under **Tools > Port**.
    - Upload the desired sketch from the `examples` folder to KitBot.
 
 2. **Power On KitBot:**
@@ -44,7 +44,7 @@ KitBot is an educational and prototyping robotics platform designed to facilitat
    - The red LED will indicate the power status.
 
 3. **Using the Bluetooth:**
-   - Pair your smartphone with KitBot using Bluetooth (HC-05).
+   - Pair your smartphone with KitBot using Bluetooth (Kit-Bot).
    - Enter the pairing code: `kitbot`.
 
 ## Example Codes
