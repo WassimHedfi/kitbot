@@ -173,33 +173,35 @@ void remoteControl() {
       reinitialize();
       break;
     }
-    scanBluetooth(); // Check if there's any incoming data through Bluetooth
+    else {
+      scanBluetooth(); // Check if there's any incoming data through Bluetooth
 
-    switch (incomingData) { // Choose appropriate action
-      case 'S':
-        stopBot();
-        break;
+      switch (incomingData) { // Choose appropriate action
+        case 'S':
+          stopBot();
+          break;
 
-      case 'F':
-        forward();
+        case 'F':
+          forward();
 
-        break;
+          break;
 
-      case 'L':
-        sharpleft();
-        break;
+        case 'L':
+          sharpleft();
+          break;
 
-      case 'R':
-        sharpright();
-        break;
+        case 'R':
+          sharpright();
+          break;
 
-      case 'B':
-        reverse();
-        break;
+        case 'B':
+          reverse();
+          break;
 
-      default:
-        stopBot();
-        break;
+        default:
+          stopBot();
+          break;
+      }
     }
   }
 }
@@ -261,35 +263,42 @@ void scanBluetooth() {
 }
 
 void ultrasonic() {
-  // Get distance from the ultrasonic sensor
-  long duration = getUltrasonicDuration();
-  int distance = durationToDistance(duration);
+  while (!exitApp) {
+    if (digitalRead(RED_BUTTON) == LOW && digitalRead(BLUE_BUTTON) == LOW) {
+      reinitialize();
+      break;
+    } else {
+      // Get distance from the ultrasonic sensor
+      long duration = getUltrasonicDuration();
+      int distance = durationToDistance(duration);
 
-  // Display distance on the LCD
-  lcd.setCursor(0, 0);
-  lcd.print("Distance: ");
-  lcd.print(distance);
-  lcd.print(" cm ");
+      // Display distance on the LCD
+      lcd.setCursor(0, 0);
+      lcd.print("Distance: ");
+      lcd.print(distance);
+      lcd.print(" cm ");
 
-  // Check if the distance is too close
-  if (distance <= 15) {
-    lcd.setCursor(0, 1);
-    lcd.print("TOO CLOSE!     ");
-    digitalWrite(RED_LED, HIGH);   // Turn on the red LED
-    digitalWrite(GREEN_LED, LOW);   // Turn off the green LED
-    analogWrite(BUZZER, 180);  // Turn on the buzzer
-    delay(200); // Sound the buzzer briefly
-    analogWrite(BUZZER, 0);   // Turn off the buzzer
-    delay(200); // Wait briefly
-  } else {
-    lcd.setCursor(0, 1);
-    lcd.print("Safe Distance  ");
-    digitalWrite(RED_LED, LOW);   // Turn off the red LED
-    digitalWrite(GREEN_LED, HIGH); // Turn on the green LED
-    analogWrite(BUZZER, 0);  // Ensure buzzer is off
+      // Check if the distance is too close
+      if (distance <= 15) {
+        lcd.setCursor(0, 1);
+        lcd.print("TOO CLOSE!     ");
+        digitalWrite(RED_LED, HIGH);   // Turn on the red LED
+        digitalWrite(GREEN_LED, LOW);   // Turn off the green LED
+        analogWrite(BUZZER, 180);  // Turn on the buzzer
+        delay(200); // Sound the buzzer briefly
+        analogWrite(BUZZER, 0);   // Turn off the buzzer
+        delay(200); // Wait briefly
+      } else {
+        lcd.setCursor(0, 1);
+        lcd.print("Safe Distance  ");
+        digitalWrite(RED_LED, LOW);   // Turn off the red LED
+        digitalWrite(GREEN_LED, HIGH); // Turn on the green LED
+        analogWrite(BUZZER, 0);  // Ensure buzzer is off
+      }
+
+      delay(300); // Update every 300ms
+    }
   }
-
-  delay(300); // Update every 300ms
 }
 
 
@@ -311,47 +320,61 @@ int durationToDistance(long duration) {
 
 
 void lineFollowing() {
-  // Read IR sensor values
-  int leftSensor = digitalRead(LEFT_IR);
-  int rightSensor = digitalRead(RIGHT_IR);
 
-  // Line following logic
-  if (leftSensor == LOW && rightSensor == LOW) {
-    // Both sensors on the line: move forward
-    forward();
-  } else if (leftSensor == LOW && rightSensor == HIGH) {
-    // Left sensor on the line, right sensor off: turn left
-    left();
-  } else if (leftSensor == HIGH && rightSensor == LOW) {
-    // Right sensor on the line, left sensor off: turn right
-    right();
-  } else {
-    // Both sensors off the line: stop
-    stopBot();
+  while (!exitApp) {
+    if (digitalRead(RED_BUTTON) == LOW && digitalRead(BLUE_BUTTON) == LOW) {
+      reinitialize();
+      break;
+    } else {
+      // Read IR sensor values
+      int leftSensor = digitalRead(LEFT_IR);
+      int rightSensor = digitalRead(RIGHT_IR);
+
+      // Line following logic
+      if (leftSensor == LOW && rightSensor == LOW) {
+        // Both sensors on the line: move forward
+        forward();
+      } else if (leftSensor == LOW && rightSensor == HIGH) {
+        // Left sensor on the line, right sensor off: turn left
+        left();
+      } else if (leftSensor == HIGH && rightSensor == LOW) {
+        // Right sensor on the line, left sensor off: turn right
+        right();
+      } else {
+        // Both sensors off the line: stop
+        stopBot();
+      }
+
+      // Small delay to stabilize the readings
+      delay(50);
+    }
   }
-
-  // Small delay to stabilize the readings
-  delay(50);
 }
 
 
 
 void obstacleAvoidance() {
-  int distance = getUltrasonicDuration();
+  while (!exitApp) {
+    if (digitalRead(RED_BUTTON) == LOW && digitalRead(BLUE_BUTTON) == LOW) {
+      reinitialize();
+      break;
+    } else {
+      int distance = getUltrasonicDuration();
 
-  // Obstacle avoidance logic
-  if (distance < 30) {
-    // Obstacle detected: stop and turn
-    stopBot();
-    delay(500);  // Pause before turning
-    right();
-    delay(500); // Turn duration
-  } else {
-    // No obstacle: move forward
-    forward();
+      // Obstacle avoidance logic
+      if (distance < 30) {
+        // Obstacle detected: stop and turn
+        stopBot();
+        delay(500);  // Pause before turning
+        right();
+        delay(500); // Turn duration
+      } else {
+        // No obstacle: move forward
+        forward();
+      }
+
+      // Small delay for stability
+      delay(100);
+    }
   }
-
-  // Small delay for stability
-  delay(100);
 }
-
