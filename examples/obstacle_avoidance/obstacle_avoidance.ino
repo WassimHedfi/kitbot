@@ -1,3 +1,5 @@
+//Obstacle Avoidance code
+
 // Ultrasonic sensor pins
 #define TRIG_PIN A3
 #define ECHO_PIN A2
@@ -39,7 +41,7 @@ void loop() {
     stopMotors();
     delay(500);  // Pause before turning
     turnRight();
-    delay(1000); // Turn duration
+    delay(500); // Turn duration
   } else {
     // No obstacle: move forward
     moveForward();
