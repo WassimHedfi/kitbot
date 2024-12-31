@@ -1,3 +1,5 @@
+//remote control code
+
 #include <SoftwareSerial.h>
 
 // Bluetooth module pins
