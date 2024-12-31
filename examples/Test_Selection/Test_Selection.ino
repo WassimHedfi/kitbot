@@ -359,7 +359,8 @@ void obstacleAvoidance() {
       reinitialize();
       break;
     } else {
-      int distance = getUltrasonicDuration();
+       long duration = getUltrasonicDuration();
+      int distance = durationToDistance(duration);
 
       // Obstacle avoidance logic
       if (distance < 30) {
